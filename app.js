@@ -6,6 +6,7 @@ import './src/database';
 
 import express from 'express';
 import home from './src/routes/home';
+import rackRoutes from './src/routes/rackRoutes';
 
 class App {
     constructor() {
@@ -21,6 +22,7 @@ class App {
 
     routes() {
         this.app.use('/', home);
+        this.app.use('/racks/', rackRoutes);
 
     }
 }

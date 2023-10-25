@@ -8,7 +8,15 @@ export default class Rack extends Model {
                 primaryKey: true,
                 autoIncrement: true,
             },
-            pecas_produzida_total: Sequelize.INTEGER,
+            pecas_produzida_total: {
+                type: Sequelize.INTEGER,
+                defaultValue: '',
+                validate: {
+                    isInt: {
+                        msg: 'Peças totais precisa ser um número inteiro',
+                    },
+                },
+            },
             saldo_a_embalar: Sequelize.INTEGER,
         }, {
             sequelize,
