@@ -17,11 +17,23 @@ export default class Rack extends Model {
                     },
                 },
             },
-            saldo_a_embalar: Sequelize.INTEGER,
+            saldo_a_embalar: {
+                type: Sequelize.INTEGER,
+                defaultValue: '',
+                validate: {
+                    isInt: {
+                        msg: 'Saldo precisa ser um número inteiro',
+                    },
+                },
+            },
         }, {
             sequelize,
             modelName: 'Rack',
         });
         return this;
+    }
+
+    static associate(models) {
+        this.belongsTo(models.Rack, { foreignKey: 'rack_id', as: 'rack' });
     }
 }

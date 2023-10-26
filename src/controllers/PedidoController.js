@@ -1,10 +1,21 @@
 import Pedido from '../models/pedido';
+import Rack from '../models/rack';
 
 class pedidoController {
     async index(req, res) {
-        const pedidos = await Pedido.findAll();
-        res.json(pedidos)
+        try {
+            const pedidos = await Pedido.findAll();
+
+            if (pedidos.length === 0) {
+                return res.status(404).json({ message: 'Nenhum pedido encontrado.' });
+            }
+
+            return res.json(pedidos);
+        } catch (e) {
+            return res.status(500).json({ error: 'Ocorreu um erro ao buscar os pedidos.' });
+        }
     }
+
 
     async store(req, res) {
         try {

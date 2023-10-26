@@ -1,8 +1,13 @@
 import Rack from '../models/rack';
+const { Op } = require('sequelize');
 
 class rackController {
     async index(req, res) {
-        const racks = await Rack.findAll();
+        const racks = await Rack.findAll({
+            where: {
+                saldo_a_embalar: { [Op.gt]: 0 }
+            }
+        });
         res.json(racks)
     }
 
