@@ -2,13 +2,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import './src/database';
+import './server/database';
 
 import express from 'express';
-import home from './src/routes/home';
-import rackRoutes from './src/routes/rackRoutes';
-import pedidoRoutes from './src/routes/pedidoRoutes';
-import volumeRoutes from './src/routes/volumeRoutes';
+import home from './server/routes/home';
+import rackRoutes from './server/routes/rackRoutes';
+import pedidoRoutes from './server/routes/pedidoRoutes';
+import volumeRoutes from './server/routes/volumeRoutes';
 
 class App {
     constructor() {
