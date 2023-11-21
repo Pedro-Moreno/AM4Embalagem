@@ -10,6 +10,15 @@ export default class Pedido extends Model {
             },
             rack_id: Sequelize.INTEGER,
             pecas_produzida: Sequelize.INTEGER,
+            saldo_a_embalar: {
+                type: Sequelize.INTEGER,
+                defaultValue: '',
+                validate: {
+                    isInt: {
+                        msg: 'Saldo precisa ser um número inteiro',
+                    },
+                },
+            },
         }, {
             sequelize,
             modelName: 'Pedido',

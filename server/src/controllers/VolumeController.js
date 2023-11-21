@@ -1,4 +1,6 @@
 import Volume from '../models/volume';
+import Pedido from '../models/pedido';
+import Rack from '../models/rack';
 
 class volumeController {
     async index(req, res) {
@@ -8,7 +10,32 @@ class volumeController {
 
     async store(req, res) {
         try {
-            const volume = Volume.create(req.body);
+            const volume = await Volume.create(req.body);
+
+            // Atualizar peças embaladas no rack associado ao pedido
+            const pedido = await Pedido.findByPk(req.body.pedido_id);
+
+            if (!pedido) {
+                return res.status(400).json({
+                    errors: ['Pedido não encontrado'],
+                });
+            }
+
+            if (req.body.pecas_embaladas > pedido.saldo_a_embalar) {
+                return res.status(400).json({
+                    errors: ['Quantidade de peças embaladas ultrapassa o saldo disponível'],
+                });
+            }
+
+            // Atualizar o saldo_a_embalar no rack associado ao pedido
+            pedido.saldo_a_embalar = pedido.saldo_a_embalar - req.body.pecas_embaladas;
+            await pedido.save();
+
+            const rack = await Rack.findByPk(pedido.rack_id);
+            if (rack) {
+                rack.saldo_a_embalar = rack.saldo_a_embalar - req.body.pecas_embaladas;
+                await rack.save();
+            }
 
             return res.json(volume);
         } catch (e) {

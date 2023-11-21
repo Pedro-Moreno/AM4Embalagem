@@ -1,4 +1,5 @@
 import Pedido from '../models/pedido';
+const { Op } = require('sequelize');
 
 class pedidoController {
     async index(req, res) {
@@ -9,7 +10,11 @@ class pedidoController {
                     errors: ['Faltando ID'],
                 });
             }
-            const pedidos = await Pedido.findAll({ where: { rack_id: id } });
+            const pedidos = await Pedido.findAll({
+                where: {
+                    rack_id: id
+                }
+            });
             res.json(pedidos);
         } catch (e) {
             return res.status(400).json({
@@ -75,6 +80,12 @@ class pedidoController {
             });
 
         } catch (e) {
+            if (e.name === 'SequelizeForeignKeyConstraintError') {
+                // Tratar erro de chave estrangeira (FK)
+                return res.status(400).json({
+                    errors: ['Não é possível excluir o pedido devido a dependências (volumes associados).'],
+                });
+            }
             return res.status(400).json({
                 errors: e.errors.map(err => err.message),
             });

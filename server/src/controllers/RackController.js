@@ -3,6 +3,7 @@ const { Op } = require('sequelize');
 
 class rackController {
     async index(req, res) {
+        console.log('Método index do rackController chamado.');
         const racks = await Rack.findAll({
             where: {
                 saldo_a_embalar: { [Op.gt]: 0 }
