@@ -71,13 +71,21 @@ export default {
   
 <style scoped>
 .page-container {
-    margin: 20px;
-    margin-top: 120px;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 20px;
     width: 100%;
     max-width: 400px;
+    margin: auto;
+    /* Centraliza horizontalmente */
+    margin-top: 120px;
+    box-sizing: border-box;
+    /* Inclui padding e bordas na largura total */
+
+    /* Centraliza verticalmente usando display: flex */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .volumes-container {
